@@ -5,6 +5,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import RestaurantList from "./components/RestaurantList";
 import Details from "./components/Details";
+import Home from "./components/Home";
+import { Button } from "react-native-web";
 
 
 export default function App() {
@@ -13,6 +15,11 @@ export default function App() {
   return (
     <NavigationContainer>
       <navigation.Navigator>
+        <navigation.Screen
+          name="Home Page"
+          component={Home}
+
+        />
         <navigation.Screen
           name="Restaurant List"
           component={RestaurantList}
