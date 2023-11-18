@@ -3,8 +3,8 @@ import { StyleSheet, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import RestaurantList from "./RestaurantList";
-import Details from "./Details";
+import RestaurantList from "./components/RestaurantList";
+import Details from "./components/Details";
 
 
 export default function App() {
