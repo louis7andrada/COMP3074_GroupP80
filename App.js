@@ -6,6 +6,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import RestaurantList from "./components/RestaurantList";
 import Details from "./components/Details";
 import Home from "./components/Home";
+import AddRestaurant from "./components/AddRestaurant";
 import { Button } from "react-native-web";
 
 
@@ -24,6 +25,11 @@ export default function App() {
           name="Restaurant List"
           component={RestaurantList}
           options={{ title: "Restaurant List" }}
+        />
+        <navigation.Screen
+          name="Add Restaurant"
+          component={AddRestaurant}
+          options={{ title: "Add Restaurant" }}
         />
         <navigation.Screen
           name="Details"
