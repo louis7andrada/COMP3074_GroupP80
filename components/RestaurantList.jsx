@@ -11,7 +11,7 @@ export default function RestaurantList(props) {
 		<SafeAreaView>
 			<FlatList
 				data={data}
-				renderItem={(item) => (
+				renderItem={({item}) => (
 					<ListItem item={item} navigation={props.navigation} />
 				)}
 				keyExtractor={(item) => item.id}
