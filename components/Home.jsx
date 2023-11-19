@@ -1,7 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View , Image} from "react-native";
 import HomeIcon from "./../assets/home-icon.png";
 import React from "react";
-
 import { useNavigation } from "@react-navigation/native";
 
 export default function Home(props) {
@@ -12,6 +11,10 @@ export default function Home(props) {
     const navigateRestaurant = () => {
         navigation.navigate("Restaurant List");
       };
+
+    const navigateAddRestaurant = () => {
+    navigation.navigate("Add Restaurant");
+    };  
       
 
 
@@ -31,15 +34,15 @@ export default function Home(props) {
 
       <View style={styles.row}>
          {/*-------- Buttons --------*/}
-        <TouchableOpacity style={styles.addBtn}>
+        <TouchableOpacity style={styles.addBtn} onPress={navigateAddRestaurant}>
           <Text style={styles.btnText}>Add Restaurants</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.viewBtn} onPress={navigateRestaurant}>
           <Text style={styles.btnText}>View Restaurant</Text>
         </TouchableOpacity>
-
       </View>
+
     </View>
   );
 }
