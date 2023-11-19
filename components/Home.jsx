@@ -17,7 +17,6 @@ export default function Home(props) {
     };  
       
 
-
   return (
     <View style={styles.container}>
 
@@ -49,31 +48,37 @@ export default function Home(props) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "F0F4F3",
+    backgroundColor: "#F0F4F3",
     justifyContent: "space-between", 
     padding: 16 
   },
   row: {
     flexDirection: "row", 
     justifyContent: "space-between",
-    marginTop: 60,
+    marginTop: 80,
   },
   addBtn: {
     backgroundColor: "#50C2C9",
     padding: 12,
     alignSelf: "flex-end",
-    width: 150
+    width: 160,
+    height: 45,
+    alignSelf: "center",
+    justifyContent: "center", 
   },
   viewBtn: {
     backgroundColor: "black",
     padding: 12,
     alignSelf: "flex-end",
-    width: 150
+    width: 160,
+    height: 45,
+    alignSelf: "center",
+    justifyContent: "center", 
   },
   btnText: {
     alignSelf: "center",
     color: "white",
-    //add font style later
+    fontWeight: "500",
   },
   titleText: {
     alignSelf: "center",

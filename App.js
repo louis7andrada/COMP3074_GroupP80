@@ -19,7 +19,7 @@ export default function App() {
         <navigation.Screen
           name="Home Page"
           component={Home}
-
+          options={{ title: "Home" }}
         />
         <navigation.Screen
           name="Restaurant List"
