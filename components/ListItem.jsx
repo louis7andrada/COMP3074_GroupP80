@@ -12,12 +12,26 @@ export default function ListItem(props) {
     >
       <Row>
         <Image source={ResturantIcon} style={{ height: 100, width: 100 }} />
-        <View style={{ flex: 1 }}>
-          <Text style={styles.text}>{props.item.title}</Text>
-          <Text style={styles.text}>{props.item.description}</Text>
+        <View style={styles.container}>
+          <Text style={{ fontWeight: "bold", fontSize: 20 }}>{props.item.title}</Text>
+          <Row>
+            <Text>Location: </Text>
+            <Text>{props.item.location}</Text>
+          </Row>
+          <Row>
+            <Text>Stars: </Text>
+            <Text>{props.item.stars}</Text>
+          </Row>
         </View>
       </Row>
     </TouchableOpacity>
   );
 }
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    display: "flex",
+    flex: 1,
+    justifyContent: "center",
+
+  },
+});
