@@ -29,9 +29,14 @@ export default function ListItem(props) {
       }}
     >
       <Row>
-        <Image source={ResturantIcon} style={{ height: 100, width: 100, marginRight: 10 }} />
+        <Image
+          source={ResturantIcon}
+          style={{ height: 100, width: 100, marginRight: 10 }}
+        />
         <View style={styles.container}>
-          <Text style={{ fontWeight: "bold", fontSize: 20 }}>{props.item.title}</Text>
+          <Text style={{ fontWeight: "bold", fontSize: 20 }}>
+            {props.item.title}
+          </Text>
           <Row>
             <Text>Location: </Text>
             <Text>{props.item.location}</Text>
@@ -42,6 +47,13 @@ export default function ListItem(props) {
           </Row>
         </View>
       </Row>
+      <View
+        style={{
+          borderBottomColor: "#A9A9A9",
+          borderBottomWidth: 1,
+          margin: 10,
+        }}
+      />
     </TouchableOpacity>
   );
 }
