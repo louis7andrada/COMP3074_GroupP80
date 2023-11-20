@@ -1,11 +1,10 @@
 import React from "react";
 import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import Row from "./Row";
-import ResturantIcon from "../assets/restaurant-icon.png";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 
-export default function ListItem(props) {
+export default function RestaurantItem(props) {
   const renderStars = () => {
     const stars = [];
     for (let i = 0; i < props.item.stars; i++) {
@@ -25,12 +24,12 @@ export default function ListItem(props) {
     <TouchableOpacity
       key={props.item.id}
       onPress={() => {
-        props.navigation.navigate("Details", { item: props.item });
+        props.navigation.navigate("Restaurant Details", { item: props.item });
       }}
     >
       <Row>
         <Image
-          source={ResturantIcon}
+          source={require("../assets/restaurant-icon.png")}
           style={{ height: 100, width: 100, marginRight: 10 }}
         />
         <View style={styles.container}>
