@@ -23,7 +23,7 @@ export default function UserItem(props) {
     <Row>
       <Image
         source={require("../assets/customer-icon.png")}
-        style={{ height: 100, width: 100, borderRadius: "25%" }}
+        style={{ height: 100, width: 100, borderRadius: 25 }}
       ></Image>
       <View
         style={{
