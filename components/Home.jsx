@@ -2,8 +2,10 @@ import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import HomeIcon from "./../assets/home-icon.png";
+import {useFonts} from 'expo-font'
 
 export default function Home(props) {
+	  
 	const navigation = useNavigation();
 
 	const navigateRestaurant = () => {
@@ -61,20 +63,20 @@ const styles = StyleSheet.create({
 	row: {
 		flexDirection: "row",
 		justifyContent: "space-between",
-		marginTop: 80,
+		marginTop: 130,
 	},
 	addBtn: {
 		backgroundColor: "#50C2C9",
 		padding: 12,
-		width: 160,
-		height: 45,
+		width: 170,
+		height: 50,
 		justifyContent: "center",
 	},
 	viewBtn: {
 		backgroundColor: "black",
 		padding: 12,
-		width: 160,
-		height: 45,
+		width: 165,
+		height: 50,
 		justifyContent: "center",
 	},
 	btnText: {
@@ -86,6 +88,7 @@ const styles = StyleSheet.create({
 		fontSize: 35,
 		fontWeight: "bold",
 		marginBottom: 70,
+		//add font family
 	},
 	welcomeText: {
 		display: "flex",
@@ -93,6 +96,7 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 		margin: 10,
 		fontSize: 15,
+		//add font family
 	},
 	icon: {
 		width: 200,

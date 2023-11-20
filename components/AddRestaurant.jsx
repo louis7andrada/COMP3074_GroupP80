@@ -5,11 +5,15 @@ import {
 	TextInput,
 	TouchableOpacity,
 	View,
+	Image
 } from "react-native";
+import FoodIcon from "./../assets/food.png";
 
 export default function AddRestaurant() {
 	return (
 		<View style={styles.container}>
+			<Image source={FoodIcon}  style={styles.icon}/>
+
 			<Text style={styles.welcomeText}>
 				Add your fav restaurant to your list!
 			</Text>
@@ -32,8 +36,7 @@ export default function AddRestaurant() {
 }
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
+	container: {	
 		backgroundColor: "#F0F4F3",
 		justifyContent: "center",
 		padding: 16,
@@ -44,17 +47,17 @@ const styles = StyleSheet.create({
 		padding: 12,
 		alignSelf: "center",
 		justifyContent: "center",
-		width: "95%",
+		width: "90%",
 		height: 50,
-		marginBottom: 65,
+		marginTop: 60,
 		bottom: 0,
-		position: "absolute",
 	},
 	btnText: {
 		alignSelf: "center",
 		fontWeight: "500",
 		color: "white",
 		fontSize: 17,
+		//add font family
 	},
 	input: {
 		height: 50,
@@ -66,6 +69,7 @@ const styles = StyleSheet.create({
 		padding: 8,
 		width: "95%",
 		alignSelf: "center",
+		
 	},
 	upBtn: {
 		borderColor: "grey",
@@ -82,7 +86,12 @@ const styles = StyleSheet.create({
 	},
 	welcomeText: {
 		alignSelf: "center",
-		margin: 10,
-		fontSize: 15,
+		margin: 20,
+		fontSize: 20,
+	},
+	icon: {
+		width: 200,
+		height: 200,
+		alignSelf: "center",
 	},
 });
