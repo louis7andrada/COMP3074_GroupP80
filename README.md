@@ -32,3 +32,6 @@ npm i
 - Jerome Delos Reyes (101324620)
 - Luis Rodrigo Procopio Andrada (101356043)
 - Sarah Moustafa (101376641)
+
+## Prototype with Figma
+https://www.figma.com/file/ptCbylhK2kR7eHBEN9FE9u/Mobile-App?type=design&node-id=0-1&mode=design&t=QxCs7RqNK8gPGIHo-0
