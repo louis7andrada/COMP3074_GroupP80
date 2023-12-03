@@ -27,7 +27,7 @@ export default function AddRestaurant() {
 				name TEXT,
 				description TEXT)`);
     });
-
+    // todo delete, for tests only
     fetchRestaurants();
   }, []);
 
@@ -57,10 +57,10 @@ export default function AddRestaurant() {
     });
   };
 
-  const showRestaurant = () => {
+  const showRestaurants = () => {
     return restaurants.map((element, index) => (
       <View key={index}>
-        <Text>{element.name}</Text>
+        <Text>{element.name} {element.description}</Text>
       </View>
     ));
   };
@@ -69,8 +69,8 @@ export default function AddRestaurant() {
     <ScrollView>
       <View style={styles.container}>
         <Image source={FoodIcon} style={styles.icon} />
-        {/* todo: removelater */}
-        {showRestaurant()}
+        {/* todo: remove later */}
+        {showRestaurants()}
         {/* TODO: remove later */}
         <Text style={styles.welcomeText}>
           Add your fav restaurant to your list!
