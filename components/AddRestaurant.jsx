@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
   Image,
+  ScrollView,
 } from "react-native";
 import FoodIcon from "./../assets/food.png";
 import * as SQLite from "expo-sqlite";
@@ -15,7 +16,7 @@ export default function AddRestaurant() {
   const [restaurantName, setRestaurantName] = useState("");
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
-  const [restaurant, setRestaurants] = useState([]);
+  const [restaurants, setRestaurants] = useState([]);
 
   const db = SQLite.openDatabase("restaurant.db");
 
@@ -56,36 +57,48 @@ export default function AddRestaurant() {
     });
   };
 
+  const showRestaurant = () => {
+    return restaurants.map((element, index) => (
+      <View key={index}>
+        <Text>{element.name}</Text>
+      </View>
+    ));
+  };
+
   return (
-    <View style={styles.container}>
-      <Image source={FoodIcon} style={styles.icon} />
+    <ScrollView>
+      <View style={styles.container}>
+        <Image source={FoodIcon} style={styles.icon} />
+        {/* todo: removelater */}
+        {showRestaurant()}
+        {/* TODO: remove later */}
+        <Text style={styles.welcomeText}>
+          Add your fav restaurant to your list!
+        </Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter restaurant name..."
+          value={restaurantName}
+          onChangeText={(text) => setRestaurantName(text)}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Enter location..."
+          value={location}
+          onChangeText={(text) => setLocation(text)}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Description..."
+          value={description}
+          onChangeText={(text) => setDescription(text)}
+        />
 
-      <Text style={styles.welcomeText}>
-        Add your fav restaurant to your list!
-      </Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter restaurant name..."
-        value={restaurantName}
-        onChangeText={(text) => setRestaurantName(text)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Enter location..."
-        value={location}
-        onChangeText={(text) => setLocation(text)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Description..."
-        value={description}
-        onChangeText={(text) => setDescription(text)}
-      />
-
-      <TouchableOpacity style={styles.addBtn} onPress={addRestaurant}>
-        <Text style={styles.btnText}>Add Restaurant</Text>
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity style={styles.addBtn} onPress={addRestaurant}>
+          <Text style={styles.btnText}>Add Restaurant</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
   );
 }
 
