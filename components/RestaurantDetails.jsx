@@ -1,10 +1,17 @@
-import { FlatList, SafeAreaView, Text, Image, View } from "react-native";
+import {
+  FlatList,
+  SafeAreaView,
+  Text,
+  Image,
+  View,
+  ScrollView,
+} from "react-native";
 import Row from "./Row";
 import UserItem from "./UserItem";
 
 export default function RestaurantDetails({ navigation, route }) {
   return (
-    <SafeAreaView style={{ margin: 10 }}>
+    <ScrollView style={{ padding: 10 }}>
       <Text
         style={{
           textAlign: "center",
@@ -35,7 +42,6 @@ export default function RestaurantDetails({ navigation, route }) {
               height: 200,
               width: "100%",
               margin: "auto",
-              boxShadow: "10 10",
             },
             {
               shadowColor: "#171717",
@@ -79,11 +85,13 @@ export default function RestaurantDetails({ navigation, route }) {
           say?
         </Text>
       </View>
-      <FlatList
-        data={route.params.item.reviews}
-        renderItem={({ item }) => <UserItem item={item} />}
-        keyExtractor={(item) => item.userId}
-      />
-    </SafeAreaView>
+      <View>
+        <FlatList
+          data={route.params.item.reviews}
+          renderItem={({ item }) => <UserItem item={item} />}
+          keyExtractor={(item) => item.userId}
+        />
+      </View>
+    </ScrollView>
   );
 }
