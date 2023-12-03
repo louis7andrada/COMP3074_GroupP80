@@ -28,7 +28,6 @@ export default function Home(props) {
         <View style={styles.topContainer}>
           {/* Title */}
           <Text style={styles.titleText}>Restaurant Track</Text>
-
           {/* User Greeting */}
           <Text style={styles.welcomeText}>
             Welcome to your Restaurant Guide.

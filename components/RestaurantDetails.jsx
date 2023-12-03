@@ -1,13 +1,6 @@
-import {
-  FlatList,
-  SafeAreaView,
-  Text,
-  Image,
-  View,
-  ScrollView,
-} from "react-native";
-import Row from "./Row";
+import { FlatList, Text, Image, View } from "react-native";
 import UserItem from "./UserItem";
+import { ScrollView } from "react-native-virtualized-view";
 
 export default function RestaurantDetails({ navigation, route }) {
   return (
