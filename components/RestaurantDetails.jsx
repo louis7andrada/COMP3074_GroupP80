@@ -28,7 +28,7 @@ export default function RestaurantDetails({ navigation, route }) {
         }}
       >
         <Image
-          source={require("../assets/restaurant-details.jpg")}
+          source={{ uri: item.image}}
           style={[
             {
               backgroundColor: "white",
@@ -47,6 +47,7 @@ export default function RestaurantDetails({ navigation, route }) {
               shadowRadius: 3,
             },
           ]}
+          
         />
       </View>
       <View>

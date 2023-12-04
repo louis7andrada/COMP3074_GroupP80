@@ -10,12 +10,16 @@ import {
 } from "react-native";
 import FoodIcon from "./../assets/food.png";
 import * as SQLite from "expo-sqlite";
+import * as ImagePicker from "expo-image-picker";
 import { useEffect, useState } from "react";
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+
 
 export default function AddRestaurant() {
   const [restaurantName, setRestaurantName] = useState("");
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
+  const [image, setImage] = useState("");
   const [restaurants, setRestaurants] = useState([]);
 
   const db = SQLite.openDatabase("restaurant.db");
@@ -27,9 +31,11 @@ export default function AddRestaurant() {
 		  id INTEGER PRIMARY KEY AUTOINCREMENT,
 		  name TEXT,
 		  location TEXT,
-		  description TEXT
+		  description TEXT,
+		  image TEXT
 		)`
 	  );
+	//   txn.executeSql(`DROP TABLE restaurants`);
 	  // todo delete, for tests only
 	//   txn.executeSql(`DELETE FROM restaurants`);
 	  fetchRestaurants();
@@ -48,20 +54,33 @@ export default function AddRestaurant() {
   const addRestaurant = () => {
     db.transaction((txn) => {
       txn.executeSql(
-        "INSERT INTO restaurants (name, location, description) VALUES (?, ?, ?)",
-        [restaurantName, location, description],
+        "INSERT INTO restaurants (name, location, description, image) VALUES (?, ?, ?, ?)",
+        [restaurantName, location, description, image],
         (txtObj, resultSet) => {
           console.log("Restaurant added successfully!");
           setRestaurantName("");
           setLocation("");
           setDescription("");
-		 
+		  setImage("")
         },
         (txtObj, error) => {
           console.log("Error adding restaurant:", error);
         }
       );
     });
+  };
+// uploading Image
+  const uploadImg = async () => {
+	let result = await ImagePicker.launchImageLibraryAsync({
+		allowsEditing: true,
+		quality: 1,
+	  });
+  
+	  if (!result.canceled) {
+		setImage(result.uri);
+	  } else {
+		alert('You did not select any image.');
+	  }
   };
 
   const showRestaurants = () => {
@@ -76,9 +95,7 @@ export default function AddRestaurant() {
     <ScrollView>
       <View style={styles.container}>
         <Image source={FoodIcon} style={styles.icon} />
-        {/* todo: remove later */}
-        {/* {showRestaurants()} */}
-        {/* TODO: remove later */}
+    
         <Text style={styles.welcomeText}>
           Add your fav restaurant to your list!
         </Text>
@@ -100,6 +117,10 @@ export default function AddRestaurant() {
           value={description}
           onChangeText={(text) => setDescription(text)}
         />
+		
+		<TouchableOpacity style={styles.upBtn} onPress={uploadImg}>
+          <Text style={styles.upText}>Upload Image</Text>
+        </TouchableOpacity>
 
         <TouchableOpacity style={styles.addBtn} onPress={addRestaurant}>
           <Text style={styles.btnText}>Add Restaurant</Text>
