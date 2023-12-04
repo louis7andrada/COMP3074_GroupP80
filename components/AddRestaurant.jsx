@@ -122,6 +122,11 @@ export default function AddRestaurant() {
           <Text style={styles.upText}>Upload Image</Text>
         </TouchableOpacity>
 
+		{image && (
+          <Image source={{ uri: image }} 
+		  style={{ width: 100, height: 100, alignSelf: "center", marginTop: 10 }} />
+        )}
+
         <TouchableOpacity style={styles.addBtn} onPress={addRestaurant}>
           <Text style={styles.btnText}>Add Restaurant</Text>
         </TouchableOpacity>
