@@ -21,15 +21,21 @@ export default function AddRestaurant() {
   const db = SQLite.openDatabase("restaurant.db");
 
   useEffect(() => {
-    db.transaction((txn) => {
-      txn.executeSql(`CREATE TABLE IF NOT EXISTS restaurants (
-				id INTEGER PRIMARY KEY AUTOINCREMENT,
-				name TEXT,
-				description TEXT)`);
-    });
-    // todo delete, for tests only
-    fetchRestaurants();
+	db.transaction((txn) => {
+	  txn.executeSql(
+		`CREATE TABLE IF NOT EXISTS restaurants (
+		  id INTEGER PRIMARY KEY AUTOINCREMENT,
+		  name TEXT,
+		  location TEXT,
+		  description TEXT
+		)`
+	  );
+	  // todo delete, for tests only
+	//   txn.executeSql(`DELETE FROM restaurants`);
+	  fetchRestaurants();
+	});
   }, []);
+  
 
   const fetchRestaurants = () => {
     db.transaction((txn) => {
@@ -42,13 +48,14 @@ export default function AddRestaurant() {
   const addRestaurant = () => {
     db.transaction((txn) => {
       txn.executeSql(
-        "INSERT INTO restaurants (name, description) VALUES (?, ?)",
-        [restaurantName, description],
+        "INSERT INTO restaurants (name, location, description) VALUES (?, ?, ?)",
+        [restaurantName, location, description],
         (txtObj, resultSet) => {
           console.log("Restaurant added successfully!");
           setRestaurantName("");
           setLocation("");
           setDescription("");
+		 
         },
         (txtObj, error) => {
           console.log("Error adding restaurant:", error);
@@ -60,7 +67,7 @@ export default function AddRestaurant() {
   const showRestaurants = () => {
     return restaurants.map((element, index) => (
       <View key={index}>
-        <Text>{element.name} {element.description}</Text>
+        <Text>{element.name} {element.location} {element.description}</Text>
       </View>
     ));
   };
@@ -70,7 +77,7 @@ export default function AddRestaurant() {
       <View style={styles.container}>
         <Image source={FoodIcon} style={styles.icon} />
         {/* todo: remove later */}
-        {showRestaurants()}
+        {/* {showRestaurants()} */}
         {/* TODO: remove later */}
         <Text style={styles.welcomeText}>
           Add your fav restaurant to your list!

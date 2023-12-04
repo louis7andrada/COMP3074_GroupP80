@@ -1,8 +1,12 @@
 import { FlatList, Text, Image, View } from "react-native";
 import UserItem from "./UserItem";
 import { ScrollView } from "react-native-virtualized-view";
-
+import { useState } from "react";
+import bootstrap from "../Bootstrap";
 export default function RestaurantDetails({ navigation, route }) {
+  const { item } = route.params
+  const [data, setData] = useState(bootstrap);
+
   return (
     <ScrollView style={{ padding: 10 }}>
       <Text
@@ -14,7 +18,7 @@ export default function RestaurantDetails({ navigation, route }) {
           marginBottom: 20,
         }}
       >
-        {route.params.item.title}
+        {item.name}
       </Text>
       <View
         style={{
@@ -56,7 +60,7 @@ export default function RestaurantDetails({ navigation, route }) {
         >
           Description
         </Text>
-        <Text>{route.params.item.description}</Text>
+        <Text>{item.description}</Text>
       </View>
       <View
         style={{
@@ -79,8 +83,10 @@ export default function RestaurantDetails({ navigation, route }) {
         </Text>
       </View>
       <View>
+
+       
         <FlatList
-          data={route.params.item.reviews}
+          data={data}
           renderItem={({ item }) => <UserItem item={item} />}
           keyExtractor={(item) => item.userId}
         />

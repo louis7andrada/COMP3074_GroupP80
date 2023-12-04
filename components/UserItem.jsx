@@ -2,8 +2,10 @@ import { Image, View, Text } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import Row from "./Row";
-
+import bootstrap from "../Bootstrap";
+import { useState } from "react";
 export default function UserItem(props) {
+
   const renderStars = () => {
     const stars = [];
     for (let i = 0; i < props.item.starsGiven; i++) {
