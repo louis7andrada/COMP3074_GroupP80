@@ -14,8 +14,12 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "Your permission description"
+      }
     },
     "android": {
       "adaptiveIcon": {
