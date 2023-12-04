@@ -6,6 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useState, useEffect } from "react";
 import * as SQLite from "expo-sqlite";
 import bootstrap from "../Bootstrap";
+import {  Rating} from "react-native-ratings"
 
 export default function RestaurantList() {
   const [restaurants, setRestaurants] = useState([]);
@@ -53,6 +54,15 @@ export default function RestaurantList() {
               <View>
                   <Text style={styles.restaurantName}>{item.name}</Text>
                   <Text style={styles.restaurantLocation}>Location: {item.location}</Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center'}}>
+                    <Text>Ratings: </Text>
+                    <Rating 
+                      tintColor="#F0F4F3"
+                      readonly
+                      imageSize={25}
+                      startingValue={item.rating}
+                    />
+                  </View>
                 </View>
           </View>
  
@@ -89,5 +99,6 @@ const styles = StyleSheet.create({
   },
   restaurantLocation: {
     fontSize: 14,
+    marginBottom: 10,
   },
 });
