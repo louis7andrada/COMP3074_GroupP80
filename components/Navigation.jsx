@@ -1,3 +1,1 @@
-export default function Navigation(params) {
-    
-};
+export default function Navigation(params) {}
