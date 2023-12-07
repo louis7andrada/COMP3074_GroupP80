@@ -1,18 +1,19 @@
-// UpdateScreen.jsx
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	View,
 	Text,
 	TextInput,
 	TouchableOpacity,
 	StyleSheet,
+	Image,
 } from "react-native";
 import * as SQLite from "expo-sqlite";
+import * as ImagePicker from "expo-image-picker";
+import { Rating } from "react-native-ratings";
 
 const db = SQLite.openDatabase("restaurant.db");
 
-export default function UpdateRestaurant({ route, navigation }) {
+export default function UpdateScreen({ route, navigation }) {
 	const { item, updateCallback } = route.params;
 
 	// all updateing states
@@ -21,6 +22,13 @@ export default function UpdateRestaurant({ route, navigation }) {
 	const [updatedDescription, setUpdatedDescription] = useState(
 		item.description,
 	);
+	const [updatedImage, setUpdatedImage] = useState(item.image);
+	const [updatedRating, setUpdatedRating] = useState(item.rating);
+
+	useEffect(() => {
+		setUpdatedImage(item.image);
+		setUpdatedRating(item.rating);
+	}, [item.image, item.rating]);
 
 	const updateRestaurant = () => {
 		// error handling if user didn't type sh
@@ -31,8 +39,15 @@ export default function UpdateRestaurant({ route, navigation }) {
 
 		db.transaction((txn) => {
 			txn.executeSql(
-				"UPDATE restaurants SET name = ?, location = ?, description = ? WHERE id = ?",
-				[updatedName, updatedLocation, updatedDescription, item.id],
+				"UPDATE restaurants SET name = ?, location = ?, description = ?, image = ?, rating = ? WHERE id = ?",
+				[
+					updatedName,
+					updatedLocation,
+					updatedDescription,
+					updatedImage,
+					updatedRating,
+					item.id,
+				],
 				(txtObj, resultSet) => {
 					alert("Restaurant updated successfully!");
 					// refresh the restaurant list
@@ -48,6 +63,20 @@ export default function UpdateRestaurant({ route, navigation }) {
 				},
 			);
 		});
+	};
+
+	// image uploading from Sarah
+	const uploadImg = async () => {
+		let result = await ImagePicker.launchImageLibraryAsync({
+			allowsEditing: true,
+			quality: 1,
+		});
+
+		if (!result.cancelled) {
+			setUpdatedImage(result.uri);
+		} else {
+			alert("You did not select any image.");
+		}
 	};
 
 	return (
@@ -76,8 +105,44 @@ export default function UpdateRestaurant({ route, navigation }) {
 			/>
 
 			{/* button */}
+			<TouchableOpacity style={styles.upBtn} onPress={uploadImg}>
+				<Text style={styles.upText}>Update Image</Text>
+			</TouchableOpacity>
+
+			{/* update new image */}
+			{updatedImage && (
+				<Image
+					source={{ uri: updatedImage }}
+					style={{
+						width: 100,
+						height: 100,
+						alignSelf: "center",
+						marginTop: 10,
+					}}
+				/>
+			)}
+
+			{/* update new ratings */}
+			<Rating
+				style={{
+					alignSelf: "center",
+					width: "90%",
+					borderRadius: 20,
+					height: 90,
+					marginTop: 10,
+				}}
+				showRating
+				type='custom'
+				ratingColor='gold'
+				tintColor='#F0F4F3'
+				imageSize={40}
+				startingValue={updatedRating}
+				onFinishRating={(value) => setUpdatedRating(value)}
+			/>
+
+			{/* update button */}
 			<TouchableOpacity style={styles.updateBtn} onPress={updateRestaurant}>
-				<Text style={styles.btnText}>Update!</Text>
+				<Text style={styles.btnText}>Update Restaurant</Text>
 			</TouchableOpacity>
 		</View>
 	);
@@ -90,9 +155,9 @@ const styles = StyleSheet.create({
 		padding: 16,
 	},
 	heading: {
-		fontSize: 25,
+		fontSize: 20,
 		fontWeight: "bold",
-		marginBottom: 30,
+		marginBottom: 20,
 		textAlign: "center",
 	},
 	input: {
@@ -102,6 +167,20 @@ const styles = StyleSheet.create({
 		borderRadius: 20,
 		marginBottom: 16,
 		padding: 8,
+	},
+	upBtn: {
+		borderColor: "grey",
+		borderRadius: 20,
+		width: "30%",
+		backgroundColor: "rgba(217, 217, 217, 0.7)",
+		padding: 10,
+		marginTop: 10,
+		alignSelf: "flex-end",
+	},
+	upText: {
+		alignSelf: "center",
+		fontWeight: "400",
+		fontSize: 13,
 	},
 	updateBtn: {
 		backgroundColor: "#50C2C9",

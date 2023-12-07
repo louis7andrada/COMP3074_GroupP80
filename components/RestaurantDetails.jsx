@@ -3,7 +3,7 @@ import { FlatList, Image, Text, View } from "react-native";
 import { ScrollView } from "react-native-virtualized-view";
 import bootstrap from "../Bootstrap";
 import UserItem from "./UserItem";
-import {  Rating} from "react-native-ratings"
+import { Rating } from "react-native-ratings";
 export default function RestaurantDetails({ navigation, route }) {
 	const { item } = route.params;
 	const [data, setData] = useState([]);
@@ -61,21 +61,21 @@ export default function RestaurantDetails({ navigation, route }) {
 					]}
 				/>
 			</View>
-			<View style={{ flexDirection: 'row', alignItems: 'center'}}>
-                    <Text style={{fontWeight:'bold', fontSize: 15}}>Ratings: </Text>
-                    <Rating 
-                      tintColor="#F0F4F3"
-                      readonly
-                      imageSize={25}
-                      startingValue={item.rating}
-                    />
-            </View>
+			<View style={{ flexDirection: "row", alignItems: "center" }}>
+				<Text style={{ fontWeight: "bold", fontSize: 15 }}>Ratings: </Text>
+				<Rating
+					tintColor='#F0F4F3'
+					readonly
+					imageSize={25}
+					startingValue={item.rating}
+				/>
+			</View>
 			<View>
 				<Text
 					style={{
 						fontWeight: "bold",
 						fontSize: 20,
-						margin:15,
+						margin: 15,
 						marginLeft: 0,
 					}}
 				>
