@@ -6,6 +6,7 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 	Image,
+	Alert,
 } from "react-native";
 import RestaurantItem from "./RestaurantItem";
 import { useNavigation } from "@react-navigation/native";
@@ -36,19 +37,45 @@ export default function RestaurantList() {
 
 	// ================== delete a restaurant ==================
 	const deleteRestaurant = (id) => {
-		db.transaction((txn) => {
-			txn.executeSql(
-				"DELETE FROM restaurants WHERE id = ?",
-				[id],
-				(txtObj, resultSet) => {
-					// ================== refresh the restaurant list after deletion ==================
-					fetchRestaurants();
+		// display a confirmation prompt to the user
+		Alert.alert(
+			"Confirm Deletion",
+			"Are you sure you want to delete this restaurant?",
+			[
+				// nothing happens
+				{
+					text: "Cancel",
+					style: "cancel",
 				},
-				(txtObj, error) => {
-					console.log("Error deleting restaurant: ", error);
+
+				// yes, think twice, delete happens.
+				{
+					text: "Delete",
+					onPress: () => {
+						db.transaction(
+							(txn) => {
+								txn.executeSql(
+									"DELETE FROM restaurants WHERE id = ?",
+									[id],
+									(txtObj, resultSet) => {
+										fetchRestaurants();
+									},
+									(txtObj, error) => {
+										console.log("Error deleting restaurant: ", error);
+									},
+								);
+							},
+							// error handling
+							(error) => {
+								console.log("Error: ", error);
+							},
+						);
+					},
+					// highlight delete with red color for UX
+					style: "destructive",
 				},
-			);
-		});
+			],
+		);
 	};
 
 	useEffect(() => {
