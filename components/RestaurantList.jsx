@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
 	FlatList,
 	SafeAreaView,
@@ -8,54 +9,53 @@ import {
 	Image,
 	Alert,
 } from "react-native";
-import RestaurantItem from "./RestaurantItem";
 import { useNavigation } from "@react-navigation/native";
-// todo: remove dummy data later
-import { useState, useEffect } from "react";
 import * as SQLite from "expo-sqlite";
-import bootstrap from "../Bootstrap";
 import { Rating } from "react-native-ratings";
 import UpdateRestaurant from "./UpdateRestaurant";
 
 export default function RestaurantList() {
+	// ================== STATES ==================
 	const [restaurants, setRestaurants] = useState([]);
+	const [isLoading, setIsLoading] = useState(true);
 
 	const db = SQLite.openDatabase("restaurant.db");
+	const navigation = useNavigation();
 
+	// ================== fetch data from DB ==================
 	const fetchRestaurants = () => {
 		db.transaction((txn) => {
 			txn.executeSql("SELECT * FROM restaurants", [], (txtObj, resultSet) => {
 				setRestaurants(resultSet.rows._array);
+				setIsLoading(false);
 			});
 		});
 	};
 
-	const navigation = useNavigation();
-
+	// ================== NAVIGATIONS ==================
+	const navigateToAddRestaurant = () => {
+		navigation.navigate("Add Restaurant");
+	};
 	const navigateDescription = (restaurant) => () => {
 		navigation.navigate("Restaurant Details", { item: restaurant });
 	};
-
 	const navigateUpdate = (restaurant) => {
 		navigation.navigate("Update Restaurant", {
 			item: restaurant,
 			updateCallback: fetchRestaurants,
 		});
 	};
-	// ================== delete a restaurant ==================
+
+	// ================== delete restaurant ==================
 	const deleteRestaurant = (id) => {
-		// display a confirmation prompt to the user
 		Alert.alert(
 			"Confirm Deletion",
 			"Are you sure you want to delete this restaurant?",
 			[
-				// nothing happens
 				{
 					text: "Cancel",
 					style: "cancel",
 				},
-
-				// yes, think twice, delete happens.
 				{
 					text: "Delete",
 					onPress: () => {
@@ -72,14 +72,11 @@ export default function RestaurantList() {
 									},
 								);
 							},
-							// error handling
 							(error) => {
 								console.log("Error: ", error);
 							},
 						);
 					},
-
-					// highlight delete with red color for UX
 					style: "destructive",
 				},
 			],
@@ -95,69 +92,114 @@ export default function RestaurantList() {
 			style={{
 				flex: 1,
 				justifyContent: "center",
+				alignItems: "center",
 				backgroundColor: "#ecf0f1",
 				padding: 8,
 			}}
 		>
-			<FlatList
-				data={restaurants}
-				renderItem={({ item }) => (
-					<TouchableOpacity onPress={navigateDescription(item)}>
-						<View style={styles.restaurantItem}>
-							<Image
-								source={require("../assets/restaurant-icon.png")}
-								style={{
-									height: 100,
-									width: 100,
-									marginRight: 10,
-									marginBottom: 10,
-								}}
-							/>
-							<View>
-								<Text style={styles.restaurantName}>{item.name}</Text>
-								<Text style={styles.restaurantLocation}>
-									Location: {item.location}
-								</Text>
-								<View style={{ flexDirection: "row", alignItems: "center" }}>
-									<Text>Ratings: </Text>
-									<Rating
-										tintColor='#F0F4F3'
-										readonly
-										imageSize={25}
-										startingValue={item.rating}
-									/>
-								</View>
-								<View style={{ flexDirection: "row", marginTop: 8 }}>
-									{/* ================== update button ================== */}
-									<TouchableOpacity
-										style={[
-											styles.button,
-											{ backgroundColor: "#50C2C9", marginRight: 8 },
-										]}
-										onPress={() => navigateUpdate(item)}
-									>
-										<Text style={styles.buttonText}>Update</Text>
-									</TouchableOpacity>
+			{/* loading state.... */}
+			{isLoading ? (
+				<Text style={styles.loadingText}>Loading...</Text>
+			) : restaurants.length === 0 ? (
+				<View style={styles.emptyContainer}>
+					{/* if user's list is empty, display nothing but add restaurant navigation */}
+					<Text style={styles.emptyText}>Your restaurant list is empty!</Text>
 
-									{/* ================== delete button ================== */}
-									<TouchableOpacity
-										style={[styles.button]}
-										onPress={() => deleteRestaurant(item.id)}
-									>
-										<Text style={styles.buttonText}>Delete</Text>
-									</TouchableOpacity>
+					<TouchableOpacity
+						style={styles.addButton}
+						onPress={navigateToAddRestaurant}
+					>
+						<Text style={styles.buttonText}>Add a Restaurant</Text>
+					</TouchableOpacity>
+				</View>
+			) : (
+				<FlatList
+					data={restaurants}
+					renderItem={({ item }) => (
+						<TouchableOpacity onPress={navigateDescription(item)}>
+							<View style={styles.restaurantItem}>
+								<Image
+									source={require("../assets/restaurant-icon.png")}
+									style={{
+										height: 100,
+										width: 100,
+										marginRight: 10,
+										marginBottom: 10,
+									}}
+								/>
+								<View>
+									<Text style={styles.restaurantName}>{item.name}</Text>
+									<Text style={styles.restaurantLocation}>
+										Location: {item.location}
+									</Text>
+									<View style={{ flexDirection: "row", alignItems: "center" }}>
+										<Text>Ratings: </Text>
+										<Rating
+											tintColor='#F0F4F3'
+											readonly
+											imageSize={25}
+											startingValue={item.rating}
+										/>
+									</View>
+									<View style={{ flexDirection: "row", marginTop: 8 }}>
+										<TouchableOpacity
+											style={[
+												styles.button,
+												{ backgroundColor: "#50C2C9", marginRight: 8 },
+											]}
+											onPress={() => navigateUpdate(item)}
+										>
+											<Text style={styles.buttonText}>Update</Text>
+										</TouchableOpacity>
+										<TouchableOpacity
+											style={[styles.button]}
+											onPress={() => deleteRestaurant(item.id)}
+										>
+											<Text style={styles.buttonText}>Delete</Text>
+										</TouchableOpacity>
+									</View>
 								</View>
 							</View>
-						</View>
-					</TouchableOpacity>
-				)}
-				keyExtractor={(item) => item.id.toString()} // use toString() for keyExtractor
-			/>
+						</TouchableOpacity>
+					)}
+					keyExtractor={(item) => item.id.toString()}
+				/>
+			)}
 		</SafeAreaView>
 	);
 }
 
 const styles = StyleSheet.create({
+	loadingText: {
+		fontSize: 18,
+		color: "#333",
+	},
+
+	emptyContainer: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+	},
+
+	emptyText: {
+		fontSize: 22,
+		color: "#555",
+		textAlign: "center",
+	},
+
+	addButton: {
+		marginTop: 16,
+		backgroundColor: "#50C2C9",
+		padding: 10,
+		borderRadius: 5,
+	},
+
+	buttonText: {
+		color: "white",
+		fontSize: 16,
+		textAlign: "center",
+	},
+
 	restaurantItem: {
 		flexDirection: "row",
 		alignItems: "center",
