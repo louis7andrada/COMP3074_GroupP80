@@ -70,6 +70,7 @@ export default function AddRestaurant() {
 					setImage("");
 					setRating(0);
 				},
+
 				(txtObj, error) => {
 					console.log("Error adding restaurant: ", error);
 				},
