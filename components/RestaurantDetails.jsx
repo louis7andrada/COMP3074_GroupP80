@@ -1,21 +1,24 @@
 import { useEffect, useState } from "react";
 import { FlatList, Image, Text, View } from "react-native";
 import { ScrollView } from "react-native-virtualized-view";
-import bootstrap from "../Bootstrap";
+import data from "../Bootstrap";
 import UserItem from "./UserItem";
 import { Rating } from "react-native-ratings";
 export default function RestaurantDetails({ navigation, route }) {
 	const { item } = route.params;
-	const [data, setData] = useState([]);
+	const [reviews, setReviews] = useState([]);
 
 	useEffect(() => {
-		// bootstrap must be an array before setting the state !!!
-		if (Array.isArray(bootstrap)) {
-			const restaurantReviews =
-				// NOTE: filter reviews for current restaurant
-				bootstrap.find((restaurant) => restaurant.id === item.id)?.reviews ||
-				[];
-			setData(restaurantReviews);
+		const restaurant = data.find((restaurant) => restaurant.id === item.id);
+		if (restaurant) {
+			const restaurantReviews = restaurant.reviews || [];
+			setReviews(restaurantReviews);
+		} else {
+			// error handling where restaurant is not found
+			console.error(`Restaurant with id ${item.id} not found`);
+
+			// set reviews to an empty array
+			setReviews([]);
 		}
 	}, [item]);
 
@@ -105,7 +108,7 @@ export default function RestaurantDetails({ navigation, route }) {
 			</View>
 			<View>
 				<FlatList
-					data={data}
+					data={reviews}
 					renderItem={({ item }) => <UserItem item={item} />}
 					keyExtractor={(item) => item.userId}
 				/>
