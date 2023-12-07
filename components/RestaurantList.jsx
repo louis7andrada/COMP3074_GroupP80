@@ -15,6 +15,7 @@ import { useState, useEffect } from "react";
 import * as SQLite from "expo-sqlite";
 import bootstrap from "../Bootstrap";
 import { Rating } from "react-native-ratings";
+import UpdateRestaurant from "./UpdateRestaurant";
 
 export default function RestaurantList() {
 	const [restaurants, setRestaurants] = useState([]);
@@ -35,6 +36,12 @@ export default function RestaurantList() {
 		navigation.navigate("Restaurant Details", { item: restaurant });
 	};
 
+	const navigateUpdate = (restaurant) => {
+		navigation.navigate("Update Restaurant", {
+			item: restaurant,
+			updateCallback: fetchRestaurants,
+		});
+	};
 	// ================== delete a restaurant ==================
 	const deleteRestaurant = (id) => {
 		// display a confirmation prompt to the user
@@ -71,6 +78,7 @@ export default function RestaurantList() {
 							},
 						);
 					},
+
 					// highlight delete with red color for UX
 					style: "destructive",
 				},
@@ -120,6 +128,18 @@ export default function RestaurantList() {
 									/>
 								</View>
 								<View style={{ flexDirection: "row", marginTop: 8 }}>
+									{/* ================== update button ================== */}
+									<TouchableOpacity
+										style={[
+											styles.button,
+											{ backgroundColor: "#50C2C9", marginRight: 8 },
+										]}
+										onPress={() => navigateUpdate(item)}
+									>
+										<Text style={styles.buttonText}>Update</Text>
+									</TouchableOpacity>
+
+									{/* ================== delete button ================== */}
 									<TouchableOpacity
 										style={[styles.button]}
 										onPress={() => deleteRestaurant(item.id)}
@@ -156,7 +176,7 @@ const styles = StyleSheet.create({
 		marginBottom: 10,
 	},
 	button: {
-		backgroundColor: "#50C2C9",
+		backgroundColor: "#ed2939",
 		padding: 8,
 		borderRadius: 5,
 	},
