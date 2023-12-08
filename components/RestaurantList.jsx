@@ -130,7 +130,7 @@ export default function RestaurantList() {
                 <View>
                   <Text style={styles.restaurantName}>{item.name}</Text>
                   <Text style={styles.restaurantLocation}>
-                    Location: {item.location}
+                    Location: {JSON.parse(item.location).name}
                   </Text>
                   <View style={{ flexDirection: "row", alignItems: "center" }}>
                     <Text>Ratings: </Text>
