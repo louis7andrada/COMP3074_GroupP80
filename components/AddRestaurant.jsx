@@ -98,7 +98,6 @@ export default function AddRestaurant() {
 
     if (!result.canceled) {
       setImage(result.uri);
-      console.log(result);
     } else {
       alert("You did not select any image.");
     }
@@ -109,7 +108,7 @@ export default function AddRestaurant() {
   };
 
   const navigateToRestaurantMap = () => {
-    navigation.navigate("Map", { onLocationChange: onLocationChange });
+    navigation.navigate("Map", { onLocationChange: onLocationChange, location: location });
   };
 
   return (
@@ -146,8 +145,8 @@ export default function AddRestaurant() {
             region={{
               longitude: location.coordinate.longitude,
               latitude: location.coordinate.latitude,
-              latitudeDelta: 0.005263631614525366,
-              longitudeDelta: 0.006704516708850861,
+              latitudeDelta: 0.00023,
+              longitudeDelta: 0.00234,
             }}
             style={{
               height: 100,
@@ -197,7 +196,7 @@ export default function AddRestaurant() {
                     selectedTag === tagItem.color ? tagItem.color : "#fff",
                 },
               ]}
-              onPress={() => {selectTag(tagItem.color); console.log(tagItem)}}
+              onPress={() => selectTag(tagItem.color) }
             >
               <Text
                 style={{
