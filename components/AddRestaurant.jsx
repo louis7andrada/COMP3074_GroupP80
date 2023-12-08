@@ -61,7 +61,7 @@ export default function AddRestaurant() {
     db.transaction((txn) => {
       txn.executeSql(
         "INSERT INTO restaurants (name, location, description, image, rating) VALUES (?, ?, ?, ?, ?)",
-        [restaurantName, location, description, image, rating],
+        [restaurantName, JSON.stringify(location), description, image, rating],
         (txtObj, resultSet) => {
           alert("Restaurant added successfully!");
           setRestaurantName("");
