@@ -1,9 +1,8 @@
 import { StyleSheet, View } from "react-native";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
-import { useNavigation } from "@react-navigation/native";
+import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 
 export default function RestaurantMap({ route, navigation }) {
-  const { onLocationChange } = route.params;
+  const { onLocationChange, location } = route.params;
 
   const TORONTO_CITY_HALL = {
     latitude: 43.653439728780945,
@@ -16,7 +15,16 @@ export default function RestaurantMap({ route, navigation }) {
     <View style={{ flex: 1 }}>
       <MapView
         style={StyleSheet.absoluteFill}
-        initialRegion={TORONTO_CITY_HALL}
+        initialRegion={
+          location === ""
+            ? TORONTO_CITY_HALL
+            : {
+                longitude: location.coordinate.longitude,
+                latitude: location.coordinate.latitude,
+                latitudeDelta: 0.005263631614525366,
+                longitudeDelta: 0.006704516708850861,
+              }
+        }
         onRegionChangeComplete={(region) => {
           console.log(region);
         }}
@@ -29,7 +37,15 @@ export default function RestaurantMap({ route, navigation }) {
         showsMyLocationButton={true}
         showsUserLocation={true}
         showsBuildings={false}
-      />
+      >
+        {location && (
+          <Marker
+            key={location.placeId}
+            coordinate={location.coordinate}
+            title={location.name}
+          />
+        )}
+      </MapView>
     </View>
   );
 }
