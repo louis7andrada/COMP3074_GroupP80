@@ -13,8 +13,8 @@ import HomeIcon from "./../assets/home-icon.png";
 export default function Home() {
 	const navigation = useNavigation();
 
-	const navigateRestaurant = () => {
-		navigation.navigate("Restaurant List");
+	const navigateRestaurants = () => {
+		navigation.navigate("Restaurants");
 	};
 
 	const navigateAddRestaurant = () => {
@@ -49,7 +49,7 @@ export default function Home() {
 						<Text style={styles.btnText}>Add Restaurant</Text>
 					</TouchableOpacity>
 
-					<TouchableOpacity style={styles.viewBtn} onPress={navigateRestaurant}>
+					<TouchableOpacity style={styles.viewBtn} onPress={navigateRestaurants}>
 						<Text style={styles.btnText}>View Restaurants</Text>
 					</TouchableOpacity>
 				</View>

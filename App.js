@@ -7,6 +7,7 @@ import Home from "./components/Home";
 import RestaurantList from "./components/RestaurantList";
 import UpdateRestaurant from "./components/UpdateRestaurant";
 import RestaurantMap from "./components/RestaurantMap";
+import BottomNavigation from "./components/BottomNavigation";
 
 export default function App() {
   const navigation = createStackNavigator();
@@ -20,9 +21,8 @@ export default function App() {
           options={{ title: "Home" }}
         />
         <navigation.Screen
-          name="Restaurant List"
-          component={RestaurantList}
-          options={{ title: "Restaurant List" }}
+          name="Restaurants"
+          component={BottomNavigation}
         />
         <navigation.Screen
           name="Add Restaurant"

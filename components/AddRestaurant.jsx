@@ -81,6 +81,7 @@ export default function AddRestaurant() {
           setDescription("");
           setImage("");
           setRating(0);
+          setSelectedTag(null);
         },
 
         (txtObj, error) => {
@@ -108,7 +109,10 @@ export default function AddRestaurant() {
   };
 
   const navigateToRestaurantMap = () => {
-    navigation.navigate("Map", { onLocationChange: onLocationChange, location: location });
+    navigation.navigate("Map", {
+      onLocationChange: onLocationChange,
+      location: location,
+    });
   };
 
   return (
@@ -165,7 +169,9 @@ export default function AddRestaurant() {
         )}
         <View style={styles.locationView}>
           <Text style={[styles.locationText]}>
-            {image && image.split("/")[image.split("/").length - 1]}
+            {image && image.split("/")[image.split("/").length - 1].length < 15
+              ? image.split("/")[image.split("/").length - 1]
+              : `...${image.split("/")[image.split("/").length - 1].slice(18)}`}
           </Text>
           <TouchableOpacity
             style={[styles.locationBtn, { flex: 1 }]}
@@ -196,7 +202,7 @@ export default function AddRestaurant() {
                     selectedTag === tagItem.color ? tagItem.color : "#fff",
                 },
               ]}
-              onPress={() => selectTag(tagItem.color) }
+              onPress={() => selectTag(tagItem.color)}
             >
               <Text
                 style={{
