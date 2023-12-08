@@ -12,7 +12,6 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import * as SQLite from "expo-sqlite";
 import { Rating } from "react-native-ratings";
-import UpdateRestaurant from "./UpdateRestaurant";
 
 export default function RestaurantList() {
   // ================== STATES ==================
@@ -199,7 +198,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: "center",
   },
-
   restaurantItem: {
     flexDirection: "row",
     alignItems: "center",
