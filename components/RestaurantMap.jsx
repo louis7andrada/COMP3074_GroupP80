@@ -23,7 +23,7 @@ export default function RestaurantMap({ route, navigation }) {
         provider={PROVIDER_GOOGLE}
         onPoiClick={(event) => {
           console.log(event.nativeEvent);
-          onLocationChange(event.nativeEvent.name)
+          onLocationChange(event.nativeEvent)
           navigation.goBack();
         }}
         showsMyLocationButton={true}

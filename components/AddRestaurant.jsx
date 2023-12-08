@@ -16,6 +16,7 @@ import { Rating } from "react-native-ratings";
 import { useNavigation } from "@react-navigation/native";
 import { faDisplay, faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 
 export default function AddRestaurant() {
   const [restaurantName, setRestaurantName] = useState("");
@@ -95,7 +96,7 @@ export default function AddRestaurant() {
   };
 
   const navigateToRestaurantMap = () => {
-    navigation.navigate("Map", {onLocationChange: onLocationChange});
+    navigation.navigate("Map", { onLocationChange: onLocationChange });
   };
 
   return (
@@ -118,7 +119,7 @@ export default function AddRestaurant() {
           onChangeText={(text) => setDescription(text)}
         />
         <View style={styles.locationView}>
-          <Text style={[styles.locationText]}>{location}</Text>
+          <Text style={[styles.locationText]}>{location.name}</Text>
           <TouchableOpacity
             style={[styles.locationBtn, { flex: 1 }]}
             onPress={navigateToRestaurantMap}
@@ -126,6 +127,25 @@ export default function AddRestaurant() {
             <Text style={styles.upText}>Select Location...</Text>
           </TouchableOpacity>
         </View>
+        {location && (
+          <MapView
+            provider={PROVIDER_GOOGLE}
+            region={{
+              longitude: location.coordinate.longitude,
+              latitude: location.coordinate.latitude,
+              latitudeDelta: 0.005263631614525366,
+              longitudeDelta: 0.006704516708850861,
+            }}
+            style={{ height: 100, width: "95%", alignSelf: "center" }}
+          >
+            <Marker
+              key={location.placeId}
+              coordinate={location.coordinate}
+              title={restaurantName}
+              description={description}
+            />
+          </MapView>
+        )}
         <TouchableOpacity style={styles.upBtn} onPress={uploadImg}>
           <Text style={styles.upText}>Upload Image</Text>
         </TouchableOpacity>
