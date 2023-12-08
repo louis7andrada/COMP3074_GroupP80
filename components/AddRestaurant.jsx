@@ -23,9 +23,22 @@ export default function AddRestaurant() {
   const [image, setImage] = useState("");
   const [rating, setRating] = useState(0);
   const [restaurants, setRestaurants] = useState([]);
-  const navigation = useNavigation();
+  const [selectedTag, setSelectedTag] = useState(null);
 
+  const navigation = useNavigation();
   const db = SQLite.openDatabase("restaurant.db");
+  const tags = [
+    { label: "Vegan", color: "#8CC084" },
+    { label: "Ethnic", color: "yellow" },
+    { label: "Fast Food", color: "#FF1654" },
+    { label: "Buffet", color: "#00E8FC" },
+    { label: "Cafe", color: "#E0C1B3" },
+    { label: "Other", color: "grey" },
+  ];
+
+  const selectTag = (tag) => {
+    setSelectedTag(tag);
+  };
 
   useEffect(() => {
     db.transaction((txn) => {
@@ -36,7 +49,8 @@ export default function AddRestaurant() {
 		  location TEXT,
 		  description TEXT,
 		  image TEXT,
-      rating INTEGER
+      rating INTEGER,
+      tag TEXT
 		)`
       );
       fetchRestaurants();
@@ -107,7 +121,7 @@ export default function AddRestaurant() {
         </Text>
         <TextInput
           style={styles.input}
-          placeholder="Enter restaurant name..."
+          placeholder="Name..."
           value={restaurantName}
           onChangeText={(text) => setRestaurantName(text)}
         />
@@ -172,6 +186,29 @@ export default function AddRestaurant() {
             }}
           />
         )}
+        <View style={styles.tagContainer}>
+          {tags.map((tagItem) => (
+            <TouchableOpacity
+              key={tagItem.label}
+              style={[
+                styles.tagButton,
+                {
+                  backgroundColor:
+                    selectedTag === tagItem.color ? tagItem.color : "#fff",
+                },
+              ]}
+              onPress={() => {selectTag(tagItem.color); console.log(tagItem)}}
+            >
+              <Text
+                style={{
+                  color: selectedTag === tagItem ? "#fff" : "#000",
+                }}
+              >
+                {tagItem.label}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
         <Rating
           style={{
             alignSelf: "center",
@@ -279,5 +316,18 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
     alignSelf: "center",
+  },
+  tagContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginTop: 10,
+    marginBottom: 20,
+  },
+  tagButton: {
+    padding: 10,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    alignItems: "center",
   },
 });
