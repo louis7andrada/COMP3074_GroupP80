@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import HomeIcon from "./../assets/home-icon.png";
 
-export default function Home(props) {
+export default function Home() {
 	const navigation = useNavigation();
 
 	const navigateRestaurant = () => {
@@ -46,11 +46,11 @@ export default function Home(props) {
 						style={styles.addBtn}
 						onPress={navigateAddRestaurant}
 					>
-						<Text style={styles.btnText}>Add Restaurants</Text>
+						<Text style={styles.btnText}>Add Restaurant</Text>
 					</TouchableOpacity>
 
 					<TouchableOpacity style={styles.viewBtn} onPress={navigateRestaurant}>
-						<Text style={styles.btnText}>View Restaurant</Text>
+						<Text style={styles.btnText}>View Restaurants</Text>
 					</TouchableOpacity>
 				</View>
 			</View>

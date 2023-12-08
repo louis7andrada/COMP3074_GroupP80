@@ -14,8 +14,6 @@ import * as ImagePicker from "expo-image-picker";
 import { useEffect, useState } from "react";
 import { Rating } from "react-native-ratings";
 import { useNavigation } from "@react-navigation/native";
-import { faDisplay, faStar } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 
 export default function AddRestaurant() {
@@ -86,6 +84,7 @@ export default function AddRestaurant() {
 
     if (!result.canceled) {
       setImage(result.uri);
+      console.log(result);
     } else {
       alert("You did not select any image.");
     }
@@ -124,7 +123,7 @@ export default function AddRestaurant() {
             style={[styles.locationBtn, { flex: 1 }]}
             onPress={navigateToRestaurantMap}
           >
-            <Text style={styles.upText}>Select Location...</Text>
+            <Text style={styles.upText}>Select Location</Text>
           </TouchableOpacity>
         </View>
         {location && (
@@ -136,7 +135,12 @@ export default function AddRestaurant() {
               latitudeDelta: 0.005263631614525366,
               longitudeDelta: 0.006704516708850861,
             }}
-            style={{ height: 100, width: "95%", alignSelf: "center" }}
+            style={{
+              height: 100,
+              width: "95%",
+              alignSelf: "center",
+              borderRadius: 10,
+            }}
           >
             <Marker
               key={location.placeId}
@@ -146,17 +150,25 @@ export default function AddRestaurant() {
             />
           </MapView>
         )}
-        <TouchableOpacity style={styles.upBtn} onPress={uploadImg}>
-          <Text style={styles.upText}>Upload Image</Text>
-        </TouchableOpacity>
+        <View style={styles.locationView}>
+          <Text style={[styles.locationText]}>
+            {image && image.split("/")[image.split("/").length - 1]}
+          </Text>
+          <TouchableOpacity
+            style={[styles.locationBtn, { flex: 1 }]}
+            onPress={uploadImg}
+          >
+            <Text style={styles.upText}>Upload Image</Text>
+          </TouchableOpacity>
+        </View>
         {image && (
           <Image
             source={{ uri: image }}
             style={{
-              width: 100,
               height: 100,
+              width: "95%",
               alignSelf: "center",
-              marginTop: 10,
+              borderRadius: 10,
             }}
           />
         )}
