@@ -19,7 +19,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 
 export default function AddRestaurant() {
   const [restaurantName, setRestaurantName] = useState("");
-  const [location, setLocation] = useState("Toronto");
+  const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
   const [rating, setRating] = useState(0);
@@ -90,8 +90,12 @@ export default function AddRestaurant() {
     }
   };
 
+  const onLocationChange = (locationName) => {
+    setLocation(locationName);
+  };
+
   const navigateToRestaurantMap = () => {
-    navigation.navigate("Map");
+    navigation.navigate("Map", {onLocationChange: onLocationChange});
   };
 
   return (
@@ -107,6 +111,12 @@ export default function AddRestaurant() {
           value={restaurantName}
           onChangeText={(text) => setRestaurantName(text)}
         />
+        <TextInput
+          style={styles.input}
+          placeholder="Description..."
+          value={description}
+          onChangeText={(text) => setDescription(text)}
+        />
         <View style={styles.locationView}>
           <Text style={[styles.locationText]}>{location}</Text>
           <TouchableOpacity
@@ -116,12 +126,6 @@ export default function AddRestaurant() {
             <Text style={styles.upText}>Select Location...</Text>
           </TouchableOpacity>
         </View>
-        <TextInput
-          style={styles.input}
-          placeholder="Description..."
-          value={description}
-          onChangeText={(text) => setDescription(text)}
-        />
         <TouchableOpacity style={styles.upBtn} onPress={uploadImg}>
           <Text style={styles.upText}>Upload Image</Text>
         </TouchableOpacity>
