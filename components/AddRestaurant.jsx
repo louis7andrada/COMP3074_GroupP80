@@ -23,7 +23,8 @@ export default function AddRestaurant() {
   const [image, setImage] = useState("");
   const [rating, setRating] = useState(0);
   const [restaurants, setRestaurants] = useState([]);
-  const [selectedTag, setSelectedTag] = useState(null);
+  const [tag, setTag] = useState(null);
+  const [tagColor, setTagColor] = useState("");
 
   const navigation = useNavigation();
   const db = SQLite.openDatabase("restaurant.db");
@@ -35,10 +36,6 @@ export default function AddRestaurant() {
     { label: "Cafe", color: "#E0C1B3" },
     { label: "Other", color: "grey" },
   ];
-
-  const selectTag = (tag) => {
-    setSelectedTag(tag);
-  };
 
   useEffect(() => {
     db.transaction((txn) => {
@@ -72,8 +69,15 @@ export default function AddRestaurant() {
     }
     db.transaction((txn) => {
       txn.executeSql(
-        "INSERT INTO restaurants (name, location, description, image, rating) VALUES (?, ?, ?, ?, ?)",
-        [restaurantName, JSON.stringify(location), description, image, rating],
+        "INSERT INTO restaurants (name, location, description, image, rating, tag) VALUES (?, ?, ?, ?, ?, ?)",
+        [
+          restaurantName,
+          JSON.stringify(location),
+          description,
+          image,
+          rating,
+          tag,
+        ],
         (txtObj, resultSet) => {
           alert("Restaurant added successfully!");
           setRestaurantName("");
@@ -81,7 +85,8 @@ export default function AddRestaurant() {
           setDescription("");
           setImage("");
           setRating(0);
-          setSelectedTag(null);
+          setTag(null);
+          setTagColor("");
         },
 
         (txtObj, error) => {
@@ -199,14 +204,17 @@ export default function AddRestaurant() {
                 styles.tagButton,
                 {
                   backgroundColor:
-                    selectedTag === tagItem.color ? tagItem.color : "#fff",
+                    tagColor === tagItem.color ? tagItem.color : "#fff",
                 },
               ]}
-              onPress={() => selectTag(tagItem.color)}
+              onPress={() => {
+                setTagColor(tagItem.color);
+                setTag(tagItem.label);
+              }}
             >
               <Text
                 style={{
-                  color: selectedTag === tagItem ? "#fff" : "#000",
+                  color: tag === tagItem ? "#fff" : "#000",
                 }}
               >
                 {tagItem.label}
