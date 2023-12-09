@@ -10,10 +10,18 @@ export default function RestaurantListMap() {
   const [isLoading, setIsLoading] = useState(true);
   const [markers, setMarkers] = useState([]);
   const [tags, setTags] = useState([]);
+  const tagsColor = {
+    Vegan: "#8CC084",
+    Ethnic: "yellow",
+    "Fast Food": "#FF1654",
+    Buffet: "#00E8FC",
+    Cafe: "#E0C1B3",
+    Other: "grey",
+  };
 
   const db = SQLite.openDatabase("restaurant.db");
   const navigation = useNavigation();
-  
+
   const navigateDescription = (restaurant) => () => {
     navigation.navigate("Restaurant Details", { item: restaurant });
   };
@@ -26,21 +34,18 @@ export default function RestaurantListMap() {
   };
 
   useEffect(() => {
-    const fetchLocation = async () => {
+    const fetchLocation = () => {
       db.transaction((txn) => {
-        txn.executeSql(
-          "SELECT * FROM restaurants",
-          [],
-          (txtObj, resultSet) => {
-            setMarkers(
-              resultSet.rows._array.map((row) => JSON.parse(row.location))
-            );
-            setIsLoading(false);
-          }
-        );
+        txn.executeSql("SELECT * FROM restaurants", [], (txtObj, resultSet) => {
+          setMarkers(
+            resultSet.rows._array.map((row) => JSON.parse(row.location))
+          );
+          setTags(resultSet.rows._array.map((row) => row.tag));
+          // console.log(resultSet.rows._array);
+          setIsLoading(false);
+        });
       });
     };
-
     fetchLocation();
   }, []);
 
@@ -49,26 +54,48 @@ export default function RestaurantListMap() {
       <MapView
         style={StyleSheet.absoluteFill}
         initialRegion={TORONTO_CITY_HALL}
-        onRegionChangeComplete={(region) => {
-          //   console.log(region);
-        }}
+        onRegionChangeComplete={(region) => {}}
         provider={PROVIDER_GOOGLE}
         showsMyLocationButton={true}
         showsUserLocation={true}
         showsBuildings={false}
       >
-        <View>{/* <Text>lorem*9</Text> */}</View>
         {markers.map((marker, index) => (
           <Marker
             key={marker.placeId}
             coordinate={marker.coordinate}
             title={marker.name}
             onSelect={() => {
-                navigateDescription()
+              navigateDescription();
             }}
+            pinColor={tagsColor[tags[index]]}
           />
         ))}
       </MapView>
+      <View style={styles.legendContainer}>
+        {Object.entries(tagsColor).map(([tag, color]) => (
+          <View key={tag} style={styles.legendItem}>
+            <Text style={{ color: color }}>● </Text>
+            <Text> {tag}</Text>
+          </View>
+        ))}
+      </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  legendContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    borderRadius: 5,
+    backgroundColor: "white",
+    borderColor: "white",
+  },
+  legendItem: {
+    flexDirection: "row",
+    alignItems: 'center',
+    textAlign: 'center',
+    justifyContent: "space-around",
+  },
+});

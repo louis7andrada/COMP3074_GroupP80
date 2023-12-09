@@ -20,11 +20,23 @@ cd COMP3074_GroupP80
 npm i
 ```
 
-## Starting Application
+## Starting The Application
 
 - `npm run web`
 - `npm run ios`
 - `npm run android`
+
+## Troubleshooting
+
+- Erase and/or Reset Device's Content and Settings
+- Remove `node_modules`
+    ```shell
+    rm -rf node_modules
+    ```
+- Reinstall Dependencies
+    ```shell
+    npm i
+    ```
 
 ## Authors
 
