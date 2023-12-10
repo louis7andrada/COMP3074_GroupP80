@@ -7,6 +7,7 @@ import Home from "./components/Home";
 import RestaurantList from "./components/RestaurantList";
 import UpdateRestaurant from "./components/UpdateRestaurant";
 import RestaurantMap from "./components/RestaurantMap";
+import About from "./components/About"
 import BottomNavigation from "./components/BottomNavigation";
 
 export default function App() {
@@ -32,7 +33,7 @@ export default function App() {
         <navigation.Screen
           name="Restaurant Details"
           component={RestaurantDetails}
-          option={{ title: "Restaurant Details" }}
+          option={{ title: "Details" }}
         />
         <navigation.Screen
           name="Update Restaurant"
@@ -43,6 +44,12 @@ export default function App() {
           name="Map"
           component={RestaurantMap}
           options={{ title: "Map" }}
+        />
+
+        <navigation.Screen
+          name="About Us"
+          component={About}
+          
         />
       </navigation.Navigator>
     </NavigationContainer>

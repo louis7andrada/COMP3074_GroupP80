@@ -38,7 +38,9 @@ export default function AddRestaurant() {
   ];
 
   useEffect(() => {
+    
     db.transaction((txn) => {
+      // txn.executeSql('DROP TABLE restaurants')
       txn.executeSql(
         `CREATE TABLE IF NOT EXISTS restaurants (
 		  id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -50,6 +52,7 @@ export default function AddRestaurant() {
       tag TEXT
 		)`
       );
+      
       fetchRestaurants();
     });
   }, []);

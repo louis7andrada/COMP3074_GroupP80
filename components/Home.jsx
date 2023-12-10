@@ -21,7 +21,12 @@ export default function Home() {
 		navigation.navigate("Add Restaurant");
 	};
 
+	const navigateAbout = () => {
+		navigation.navigate("About Us");
+	  };
+
 	return (
+		<View style={{ flex: 1 }}>
 		<ScrollView>
 			<View style={styles.container}>
 				<View style={styles.topContainer}>
@@ -47,6 +52,8 @@ export default function Home() {
 						onPress={navigateAddRestaurant}
 					>
 						<Text style={styles.btnText}>Add Restaurant</Text>
+
+						
 					</TouchableOpacity>
 
 					<TouchableOpacity style={styles.viewBtn} onPress={navigateRestaurants}>
@@ -55,6 +62,10 @@ export default function Home() {
 				</View>
 			</View>
 		</ScrollView>
+		<TouchableOpacity style={styles.about} onPress={navigateAbout}>
+				<Text style={styles.aboutLink}>About Us</Text>
+			</TouchableOpacity>
+		</View>
 	);
 }
 
@@ -97,7 +108,7 @@ const styles = StyleSheet.create({
 		fontSize: 35,
 		fontWeight: "bold",
 		marginBottom: 70,
-		//add font family
+		
 	},
 	welcomeText: {
 		display: "flex",
@@ -105,11 +116,20 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 		margin: 10,
 		fontSize: 15,
-		//add font family
+		
 	},
 	icon: {
 		width: 200,
 		height: 200,
 		alignSelf: "center",
 	},
+	about: {
+		marginBottom: 50,
+	},
+	aboutLink: {
+		color: "blue",
+		marginTop: 15,
+		textAlign: "center",
+		fontSize: 18,
+	}
 });

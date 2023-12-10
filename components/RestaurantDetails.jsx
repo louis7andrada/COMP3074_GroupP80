@@ -1,13 +1,27 @@
 import { useEffect, useState } from "react";
-import { FlatList, Image, Text, View } from "react-native";
+import { FlatList, Image, Text, View, TouchableOpacity } from "react-native";
 import { ScrollView } from "react-native-virtualized-view";
 import data from "../Bootstrap";
 import UserItem from "./UserItem";
 import { Rating } from "react-native-ratings";
+import Share  from "react-native-share";
+
 export default function RestaurantDetails({ navigation, route }) {
 	const { item } = route.params;
 	const [reviews, setReviews] = useState([]);
 
+	const sharing = async () => {
+		const options = {
+			message: 'This is my message'
+		}
+
+		try{
+			const sharingRes = await Share.open(options)
+  
+		}catch(err){
+			console.log(err)
+		}
+	}
 	useEffect(() => {
 		const restaurant = data.find((restaurant) => restaurant.id === item.id);
 		if (restaurant) {
@@ -64,8 +78,9 @@ export default function RestaurantDetails({ navigation, route }) {
 					]}
 				/>
 			</View>
-			<View style={{ flexDirection: "row", alignItems: "center" }}>
-				<Text style={{ fontWeight: "bold", fontSize: 15 }}>Ratings: </Text>
+			<View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
+			<View style={{flexDirection: "row",}}>
+			<Text style={{ fontWeight: "bold", fontSize: 15 }}>Ratings: </Text>
 				<Rating
 					tintColor='#F0F4F3'
 					readonly
@@ -73,6 +88,22 @@ export default function RestaurantDetails({ navigation, route }) {
 					startingValue={item.rating}
 				/>
 			</View>
+
+				<TouchableOpacity
+				style={{
+					marginRight: 5,
+					paddingVertical: 5,
+					paddingHorizontal: 10,
+					backgroundColor: "#50C2C9",
+					borderRadius: 5,
+				}}
+				onPress={sharing}
+				>
+				<Text style={{ color: "white", fontWeight: "bold" }}>Share</Text>
+				</TouchableOpacity>
+
+			</View>
+
 			<View>
 				<Text
 					style={{
