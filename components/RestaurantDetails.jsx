@@ -24,6 +24,28 @@ export default function RestaurantDetails({ navigation, route }) {
 		}
 	}, [item]);
 
+	const onShare = async () => {
+        try {
+          const result = await Share.share({
+            message: `Check out this place: ${item.name}! \n${item.description}`,
+            // You can also add a URL if you have one
+            // url: 'https://www.example.com/restaurant-details',
+          });
+
+          if (result.action === Share.sharedAction) {
+            if (result.activityType) {
+              console.log('Shared with activity type of', result.activityType);
+            } else {
+              console.log('Shared');
+            }
+          } else if (result.action === Share.dismissedAction) {
+            console.log('Dismissed');
+          }
+        } catch (error) {
+          console.error('Error while trying to share', error.message);
+        }
+      };
+
 	return (
 		<ScrollView style={{ padding: 10 }}>
 			<Text
@@ -77,21 +99,19 @@ export default function RestaurantDetails({ navigation, route }) {
 				/>
 			</View>
 
-				{/* <TouchableOpacity
-				style={{
-					marginRight: 5,
-					paddingVertical: 5,
-					paddingHorizontal: 10,
-					backgroundColor: "#50C2C9",
-					borderRadius: 5,
-				}}
-				onPress={sharing}
-				>
-				<Text style={{ color: "white", fontWeight: "bold" }}>Share</Text>
-				</TouchableOpacity> */}
-
-			</View>
-
+				<TouchableOpacity
+                          style={{
+                            marginRight: 5,
+                            paddingVertical: 5,
+                            paddingHorizontal: 10,
+                            backgroundColor: "#50C2C9",
+                            borderRadius: 5,
+                          }}
+                          onPress={onShare}
+                        >
+                          <Text style={{ color: "white", fontWeight: "bold" }}>Share</Text>
+                        </TouchableOpacity>
+                      </View>
 			<View>
 				<Text
 					style={{

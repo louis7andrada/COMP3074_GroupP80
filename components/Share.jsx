@@ -1,7 +1,10 @@
 import React from 'react'
+import { Share, ... } from 'react-native';
 
-export default function Share() {
+const ShareComponent = ({ onShare }) => {
   return (
-    <div>Share</div>
-  )
-}
+    <div onClick={onShare}>Share</div>
+  );
+};
+
+export default ShareComponent;
