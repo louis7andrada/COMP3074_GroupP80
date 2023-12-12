@@ -4,24 +4,12 @@ import { ScrollView } from "react-native-virtualized-view";
 import data from "../Bootstrap";
 import UserItem from "./UserItem";
 import { Rating } from "react-native-ratings";
-import Share  from "react-native-share";
+
 
 export default function RestaurantDetails({ navigation, route }) {
 	const { item } = route.params;
 	const [reviews, setReviews] = useState([]);
 
-	const sharing = async () => {
-		const options = {
-			message: 'This is my message'
-		}
-
-		try{
-			const sharingRes = await Share.open(options)
-  
-		}catch(err){
-			console.log(err)
-		}
-	}
 	useEffect(() => {
 		const restaurant = data.find((restaurant) => restaurant.id === item.id);
 		if (restaurant) {
