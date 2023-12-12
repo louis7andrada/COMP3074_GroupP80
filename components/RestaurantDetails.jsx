@@ -77,7 +77,7 @@ export default function RestaurantDetails({ navigation, route }) {
 				/>
 			</View>
 
-				<TouchableOpacity
+				{/* <TouchableOpacity
 				style={{
 					marginRight: 5,
 					paddingVertical: 5,
@@ -88,7 +88,7 @@ export default function RestaurantDetails({ navigation, route }) {
 				onPress={sharing}
 				>
 				<Text style={{ color: "white", fontWeight: "bold" }}>Share</Text>
-				</TouchableOpacity>
+				</TouchableOpacity> */}
 
 			</View>
 
