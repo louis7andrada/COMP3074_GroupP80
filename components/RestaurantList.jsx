@@ -15,6 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 import * as SQLite from "expo-sqlite";
 import { Rating } from "react-native-ratings";
 
+
 export default function RestaurantList() {
   // ================== STATES ==================
   const [restaurants, setRestaurants] = useState([]);
@@ -43,8 +44,8 @@ export default function RestaurantList() {
             fetchRestaurants();
           } else {
             txn.executeSql(
-              "SELECT * FROM restaurants WHERE name LIKE ?",
-              [`%${search}%`],
+              "SELECT * FROM restaurants WHERE name LIKE ? OR tag LIKE ?",
+              [`%${search}%`, `%${search}%`],
               (txtObj, resultSet) => {
                 const searchedRestaurants = resultSet.rows._array;
                 setRestaurants(searchedRestaurants);
@@ -54,7 +55,10 @@ export default function RestaurantList() {
                 console.log(error);
                 setIsLoading(false);
               }
+              
             );
+
+
           }
   });
 };
@@ -136,15 +140,25 @@ export default function RestaurantList() {
         padding: 8,
       }}
     >
+   
+      <View style={styles.searchBar}>
+      
       <TextInput
-        style={styles.restaurantItem}
-        placeholder="Search by name..."
+        style={{ flex: 1 }}
+        placeholder="Search by name or tag..."
         value={search}
         onChangeText={(text) => {
           setSearch(text);
-          setTimeout(fetchRestaurantName, 300);
         }}
       />
+      
+        <Image
+          source={require("../assets/search-icon.png")}
+          style={{ width: 25, height: 25 }}
+        />
+      
+    </View>
+
 
       {/* loading state.... */}
       {isLoading ? (
@@ -274,4 +288,16 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 14,
   },
+  searchBar: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 8,
+    borderWidth: 0.3,
+    borderColor: "#13274F",
+    backgroundColor: "#F2F3F4",
+    borderRadius: 14,
+    padding: 9,
+    width: "95%",
+    height: 38
+  }
 });
