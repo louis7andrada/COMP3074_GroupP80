@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   Image,
   Alert,
+  TextInput
+  
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import * as SQLite from "expo-sqlite";
@@ -17,6 +19,8 @@ export default function RestaurantList() {
   // ================== STATES ==================
   const [restaurants, setRestaurants] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [search, setSearch] = useState("");
+
 
   const db = SQLite.openDatabase("restaurant.db");
   const navigation = useNavigation();
@@ -30,6 +34,32 @@ export default function RestaurantList() {
       });
     });
   };
+
+  // ================== fetch restaurant by name ==================
+      const fetchRestaurantName = () => {
+        db.transaction((txn) => {
+          // setIsLoading(true)
+          if (search.trim() === "") {
+            fetchRestaurants();
+          } else {
+            txn.executeSql(
+              "SELECT * FROM restaurants WHERE name LIKE ?",
+              [`%${search}%`],
+              (txtObj, resultSet) => {
+                const searchedRestaurants = resultSet.rows._array;
+                setRestaurants(searchedRestaurants);
+                setIsLoading(false);
+              },
+              (txtObj, error) => {
+                console.log(error);
+                setIsLoading(false);
+              }
+            );
+          }
+  });
+};
+
+  
 
   // ================== NAVIGATIONS ==================
   const navigateToAddRestaurant = () => {
@@ -84,7 +114,17 @@ export default function RestaurantList() {
 
   useEffect(() => {
     fetchRestaurants();
+    
   }, []);
+
+  useEffect(() => {
+    const delaySearch = setTimeout(() => {
+      fetchRestaurantName();
+    }, 300);
+    return () => clearTimeout(delaySearch);
+  }, [search]);
+  
+  
 
   return (
     <SafeAreaView
@@ -96,6 +136,16 @@ export default function RestaurantList() {
         padding: 8,
       }}
     >
+      <TextInput
+        style={styles.restaurantItem}
+        placeholder="Search by name..."
+        value={search}
+        onChangeText={(text) => {
+          setSearch(text);
+          setTimeout(fetchRestaurantName, 300);
+        }}
+      />
+
       {/* loading state.... */}
       {isLoading ? (
         <Text style={styles.loadingText}>Loading...</Text>
