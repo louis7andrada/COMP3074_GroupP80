@@ -39,14 +39,11 @@ export default function AddRestaurant() {
 
 	useEffect(() => {
 		db.transaction((txn) => {
-			// txn.executeSql('DROP TABLE restaurants')
 			txn.executeSql(
 				`CREATE TABLE IF NOT EXISTS restaurants (
                   id INTEGER PRIMARY KEY AUTOINCREMENT,
                   name TEXT,
                   location TEXT,
-                  latitude REAL,
-                  longitude REAL,
                   description TEXT,
                   image TEXT,
                   rating INTEGER,
@@ -77,12 +74,10 @@ export default function AddRestaurant() {
 
 		db.transaction((txn) => {
 			txn.executeSql(
-				"INSERT INTO restaurants (name, location, latitude, longitude, description, image, rating, tag) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+				"INSERT INTO restaurants (name, location, description, image, rating, tag) VALUES (?, ?, ?, ?, ?, ?)",
 				[
 					restaurantName,
 					JSON.stringify(location),
-					coordinate.latitude,
-					coordinate.longitude,
 					description,
 					image,
 					rating,
