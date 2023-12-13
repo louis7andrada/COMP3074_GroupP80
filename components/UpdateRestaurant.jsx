@@ -19,6 +19,7 @@ const db = SQLite.openDatabase("restaurant.db");
 export default function UpdateScreen({ route, navigation }) {
 	const { item, updateCallback } = route.params;
 
+	// ================== STATES ==================
 	const [updatedName, setUpdatedName] = useState(item.name);
 	const [updatedLocation, setUpdatedLocation] = useState(item.location);
 	const [updatedLatitude, setUpdatedLatitude] = useState(0);
